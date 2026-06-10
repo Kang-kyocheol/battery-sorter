@@ -1,94 +1,332 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>건전지 분류기</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Green Battery</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
-    font-family:sans-serif;
-    text-align:center;
-    background:#f5f5f5;
-    margin:0;
-    padding:20px;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(180deg,#ffffff 0%,#f1fbf2 100%);
+  color:#111827;
 }
 
-.container{
-    max-width:500px;
-    margin:auto;
+.app{
+  max-width:430px;
+  min-height:100vh;
+  margin:0 auto;
+  padding:24px 22px 36px;
+  position:relative;
+  overflow:hidden;
 }
 
-h1{
-    color:#2E7D32;
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:48px;
 }
 
-.upload-box{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:19px;
+  font-weight:800;
 }
 
-img{
-    width:100%;
-    margin-top:20px;
-    border-radius:10px;
+.logo-icon{
+  width:31px;
+  height:31px;
+  border:3px solid #1f9d55;
+  border-radius:8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#1f9d55;
+  font-size:17px;
+}
+
+.menu{
+  font-size:30px;
+  font-weight:700;
+}
+
+.hero{
+  position:relative;
+  min-height:430px;
+}
+
+.hero h2{
+  margin:0;
+  font-size:30px;
+  font-weight:500;
+  line-height:1.35;
+}
+
+.hero h1{
+  margin:10px 0 20px;
+  font-size:53px;
+  line-height:1.15;
+  font-weight:900;
+  letter-spacing:-2px;
+}
+
+.green{
+  color:#139b57;
+}
+
+.desc{
+  color:#5f6875;
+  font-size:20px;
+  line-height:1.55;
+  margin:0;
+}
+
+.mascot{
+  position:absolute;
+  right:-8px;
+  bottom:10px;
+  width:185px;
+  height:185px;
+  background:radial-gradient(circle at 35% 25%,#c7f36a,#60bb22 65%,#3a941c);
+  border-radius:48% 52% 44% 56%;
+  box-shadow:0 12px 25px rgba(32,120,30,.2);
+}
+
+.mascot:before{
+  content:"🌱";
+  position:absolute;
+  top:-38px;
+  left:60px;
+  font-size:52px;
+}
+
+.face{
+  position:absolute;
+  top:58px;
+  left:47px;
+  font-size:38px;
+}
+
+.cheek{
+  position:absolute;
+  width:17px;
+  height:17px;
+  border-radius:50%;
+  background:#ff9f9f;
+  top:92px;
+}
+
+.cheek.left{left:35px;}
+.cheek.right{right:35px;}
+
+.battery{
+  position:absolute;
+  left:-22px;
+  bottom:28px;
+  width:64px;
+  height:92px;
+  border-radius:12px;
+  background:linear-gradient(90deg,#d9d9d9,#fff,#bdbdbd);
+  border:4px solid #444;
+  transform:rotate(-6deg);
+}
+
+.battery:before{
+  content:"";
+  position:absolute;
+  top:-11px;
+  left:20px;
+  width:20px;
+  height:9px;
+  background:#555;
+  border-radius:5px 5px 0 0;
+}
+
+.battery:after{
+  content:"♻";
+  position:absolute;
+  top:21px;
+  left:12px;
+  font-size:34px;
+  color:#159447;
+}
+
+.spark{
+  position:absolute;
+  right:10px;
+  top:180px;
+  font-size:32px;
+  color:#d8f35c;
+}
+
+.upload-card{
+  margin-top:-60px;
+  background:rgba(255,255,255,.95);
+  border-radius:30px;
+  padding:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.upload-inner{
+  border:2px dashed #c9e7cd;
+  border-radius:24px;
+  padding:38px 18px;
+  text-align:center;
+}
+
+.camera-circle{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#edf8ee;
+  margin:0 auto 28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+}
+
+.upload-title{
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.upload-sub{
+  color:#6b7280;
+  font-size:16px;
+  margin-bottom:30px;
+}
+
+.btn{
+  width:100%;
+  border:none;
+  border-radius:999px;
+  padding:18px;
+  font-size:20px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn-camera{
+  background:#169b49;
+  color:white;
+  margin-bottom:15px;
+}
+
+.btn-upload{
+  background:white;
+  color:#111827;
+  border:2px solid #d5ead8;
+}
+
+input{
+  display:none;
+}
+
+.preview{
+  display:none;
+  width:100%;
+  margin-top:20px;
+  border-radius:20px;
 }
 
 .result{
-    margin-top:20px;
-    font-size:20px;
-    font-weight:bold;
+  display:none;
+  margin-top:18px;
+  padding:18px;
+  border-radius:18px;
+  background:#f0faf2;
+  color:#137a3a;
+  font-weight:800;
+  line-height:1.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<h1>🔋 건전지 분류기</h1>
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">🔋</div>
+      Green Battery
+    </div>
+    <div class="menu">☰</div>
+  </div>
 
-<div class="upload-box">
+  <section class="hero">
+    <h2>사진으로 간편하게</h2>
+    <h1><span class="green">건전지</span>를<br>분류해봐요!</h1>
+    <p class="desc">정확한 분류로 안전을 지키고,<br>지구를 보호해요.</p>
 
-<p>사진을 촬영하거나 업로드하세요.</p>
+    <div class="spark">✦</div>
 
-<input
-type="file"
-accept="image/*"
-capture="environment"
-id="imageInput">
+    <div class="mascot">
+      <div class="face">● ᴗ ◕</div>
+      <div class="cheek left"></div>
+      <div class="cheek right"></div>
+      <div class="battery"></div>
+    </div>
+  </section>
 
-<img id="preview" style="display:none;">
+  <section class="upload-card">
+    <div class="upload-inner">
+      <div class="camera-circle">📷</div>
 
-<div class="result" id="result">
-사진을 선택해주세요.
-</div>
+      <div class="upload-title">사진을 촬영하거나 업로드하세요</div>
+      <div class="upload-sub">건전지 또는 배터리가 보이게 촬영해주세요.</div>
 
-</div>
+      <label class="btn btn-camera">
+        📷 카메라로 촬영
+        <input type="file" accept="image/*" capture="environment" id="cameraInput">
+      </label>
+
+      <label class="btn btn-upload">
+        🖼️ 사진 업로드
+        <input type="file" accept="image/*" id="uploadInput">
+      </label>
+
+      <img id="preview" class="preview">
+
+      <div id="result" class="result">
+        🔍 사진이 업로드되었습니다.<br>
+        AI 분석 기능은 다음 단계에서 연결합니다.
+      </div>
+    </div>
+  </section>
 
 </div>
 
 <script>
+const cameraInput = document.getElementById("cameraInput");
+const uploadInput = document.getElementById("uploadInput");
+const preview = document.getElementById("preview");
+const result = document.getElementById("result");
 
-const imageInput=document.getElementById("imageInput");
-const preview=document.getElementById("preview");
-const result=document.getElementById("result");
+function showImage(file){
+  if(!file) return;
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+  result.style.display = "block";
+}
 
-imageInput.addEventListener("change",function(){
-
-const file=this.files[0];
-
-if(!file) return;
-
-preview.src=URL.createObjectURL(file);
-preview.style.display="block";
-
-result.innerHTML="🔍 AI 분석 준비중";
-
+cameraInput.addEventListener("change", e => {
+  showImage(e.target.files[0]);
 });
 
+uploadInput.addEventListener("change", e => {
+  showImage(e.target.files[0]);
+});
 </script>
 
 </body>
